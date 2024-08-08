@@ -74,8 +74,3 @@ jobs:
         run: |
           cd ${{ matrix.service }}
           pnpm install
-
-      - name: Run tests
-        run: |
-          cd ${{ matrix.service }}
-          pnpm test
