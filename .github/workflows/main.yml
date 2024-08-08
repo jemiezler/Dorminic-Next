@@ -21,8 +21,14 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Check Node.js version
+        run: node --version
+
       - name: Install pnpm
         run: npm install -g pnpm
+
+      - name: Check pnpm version
+        run: pnpm --version
 
       - name: Install dependencies
         run: |
@@ -55,8 +61,14 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Check Node.js version
+        run: node --version
+
       - name: Install pnpm
         run: npm install -g pnpm
+
+      - name: Check pnpm version
+        run: pnpm --version
 
       - name: Install dependencies
         run: |
