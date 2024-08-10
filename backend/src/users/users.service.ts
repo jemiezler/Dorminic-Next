@@ -1,26 +1,32 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { UsersDocument, Users } from './schemas/users.schema';
+import { Model } from 'mongoose';
+import { RegisterDTO } from './dto/register.dto';
 
 @Injectable()
 export class UsersService {
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+  constructor(
+    @InjectModel(Users.name) private readonly userModel: Model<UsersDocument>,
+  ) {}
+
+  async create(registerDTO: RegisterDTO): Promise<Users> {
+    const newUser = new this.userModel(registerDTO).toObject();
+    return await newUser.save();
   }
 
-  findAll() {
-    return `This action returns all users`;
+  async findByEmail(email: string): Promise<UsersDocument> {
+    return await this.userModel.findOne({ email }).lean();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
-  }
-
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async findByEmailOrUsername(
+    email: string,
+    username: string,
+  ): Promise<UsersDocument> {
+    return await this.userModel
+      .findOne({
+        $or: [{ email: email }, { username: username }],
+      })
+      .lean();
   }
 }

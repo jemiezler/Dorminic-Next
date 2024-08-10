@@ -115,7 +115,7 @@ function promptServiceSelection() {
 // Define services
 const services = {
   backend: {
-    command: 'cd backend && pnpm run start',
+    command: 'cd backend && pnpm run start:dev',
     port: 8080
   },
   admin: {
